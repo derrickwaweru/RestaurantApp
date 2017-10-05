@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">RestaurantApp</string>
     <string name="slogan">Whoever your are ,wherever you are we will find you and we will feed you</string>
+    <string name="title_activity_home">Home</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>

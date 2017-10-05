@@ -1,6 +1,7 @@
 package com.example.derrick.restaurantapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.derrick.restaurantapp.Common.Common;
 import com.example.derrick.restaurantapp.Model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,25 +49,32 @@ public class SignIn extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Method to check if user doesn't exist in the database
-                        if (dataSnapshot.child(edtPhone.getText().toString()).exists()){
+                        if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
                             //Gets the user information
                             mDialog.dismiss();
 
-                        User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                        if (user.getPassword().equals(edtPassword.getText().toString())) {
-                            Toast.makeText(SignIn.this, "Sign in successful", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SignIn.this, "Wrong password", Toast.LENGTH_SHORT).show();
+                            User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                            if (user.getPassword().equals(edtPassword.getText().toString())) {
+
+                                Intent homeIntent = new Intent(SignIn.this,Home.class);
+                                Common.currentUser = user;
+                                startActivity(homeIntent);
+                                finish();
+
+                            } else {
+                                Toast.makeText(SignIn.this, "Wrong Password !!!", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
+                    else{
+                            mDialog.dismiss();
 
-                    } else
+                            Toast.makeText(SignIn.this, "User does not exist in the database", Toast.LENGTH_SHORT).show();
 
-                    {
-                        Toast.makeText(SignIn.this, "User does not exist in the database", Toast.LENGTH_SHORT).show();
 
+                        }
                     }
-                }
+
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -77,3 +86,4 @@ public class SignIn extends AppCompatActivity {
         });
     }
 }
+
